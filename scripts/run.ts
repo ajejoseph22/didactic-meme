@@ -10,12 +10,16 @@ const main = async () => {
     await waveContract.getTotalWaves();
 
     // FIRST WAVE (BY OWNER)
-    await waveContract.wave();
+    let waveTxn = await waveContract.wave("This is wave #1");
+    await waveTxn.wait(); // Wait for the transaction to be mined
     await waveContract.getTotalWaves();
 
     // SECOND WAVE (BY RANDOM USER)
-    await waveContract.connect(randomPerson).wave();
+    waveTxn = await waveContract.connect(randomPerson).wave("This is wave #2");
+    await waveTxn.wait(); // Wait for the transaction to be mined
     await waveContract.getTotalWaves();
+    const allWaves = await waveContract.getAllWaves();
+    console.log("ALL WAVES", allWaves);
 
 };
 
